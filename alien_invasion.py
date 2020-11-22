@@ -89,8 +89,24 @@ class AlienInvasion:
 				self.bullets.remove(bullet)
 
 	def _update_aliens(self):
-		"""Update the position of all aliens in the fleet."""
+		"""Chk if the fleet is at an edge,
+			then update the position of all aliens in the fleet."""
+		self._check_fleet_edges()
 		self.aliens.update()
+
+	def _check_fleet_edges(self):
+		"""Respond appropriately if any aliensw have reached an edge."""
+		for alien in self.aliens.sprites():					# if check_edges() returns true we know an alien is at edge and direction needs to change
+			if alien.check_edges():
+				self._change_fleet_direction()				# ...so we call _change_fleet_direction()
+				break
+
+	def _change_fleet_direction(self):
+		"""Drop the entire fleet and change the fleet's direction."""
+		for alien in self.aliens.sprites():
+			alien.rect.y += self.settings.fleet_drop_speed
+		self.settings.fleet_direction *= -1				# after fleet has dropped, we change the value of fleet_direction by multiplying its current value by -1
+
 
 	def _create_fleet(self):
 		"""Create the fleet of aliens."""
