@@ -93,6 +93,11 @@ class AlienInvasion:
 		collisions = pygame.sprite.groupcollide(				#compares the position of all bulets in self.bullets and all the aliens in self.aliens
 				self.bullets, self.aliens, True, True)			# if overlap, collide() adds a key-value pair to the dic it returns, removes bullets and aliens
 
+		if not self.aliens:										# we check if alien group is empty
+			# Destroy existing hullets and create new fleet.
+			self.bullets.empty()								# if alien group empty, we remove existing bullets by using empty() method
+			self._create_fleet()								# We then call _create_fleet(), which fills the screen with aliens again
+
 	def _update_aliens(self):
 		"""Chk if the fleet is at an edge,
 			then update the position of all aliens in the fleet."""
