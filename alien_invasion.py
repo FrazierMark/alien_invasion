@@ -107,6 +107,10 @@ class AlienInvasion:
 		self._check_fleet_edges()
 		self.aliens.update()
 
+		# Look for alien-ship collisions.
+		if pygame.sprite.spritecollideany(self.ship, self.aliens):	# spritecollideany() functions takes 2 args, sprite and a group.
+			print("Ship hit!!!")								# if spritecollideany() returns None, if block doesn't execute
+
 	def _check_fleet_edges(self):
 		"""Respond appropriately if any aliensw have reached an edge."""
 		for alien in self.aliens.sprites():					# if check_edges() returns true we know an alien is at edge and direction needs to change
