@@ -1,5 +1,8 @@
 import sys
+from time import sleep
+
 import pygame
+
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
@@ -110,6 +113,7 @@ class AlienInvasion:
 		# Look for alien-ship collisions.
 		if pygame.sprite.spritecollideany(self.ship, self.aliens):	# spritecollideany() functions takes 2 args, sprite and a group.
 			print("Ship hit!!!")								# if spritecollideany() returns None, if block doesn't execute
+
 
 	def _check_fleet_edges(self):
 		"""Respond appropriately if any aliensw have reached an edge."""
