@@ -17,7 +17,7 @@ class Button:
 		self.rect = pygame.Rect(0, 0, self.width, self.height)	# We create a rect for the button... 
 		self.rect.center = self.screen_rect.center				#... and set its center attribute to match that of the screen
 
-		# The button message needs to be prepped oly once.
+		# The button message needs to be prepped only once.
 		self._prep_msg(msg)
 
 	def _prep_msg(self, msg):
@@ -26,3 +26,8 @@ class Button:
 				 self.button_color)
 		self.msg_image_rect = self.msg_image.get_rect()			# We center the rect image on the buttonby creating a rect from the image...
 		self.msg_image_rect.center = self.rect.center			# ...and settings its center attributes to match that of the button
+
+	def draw_button(self):
+		# Draw blank button and then draw message.
+		self.screen.fill(self.button_color, self.rect)			# .fill() to draw rect portion of the button
+		self.screen.blit(self.msg_image, self.msg_image_rect)	# we call .blit() to draw the text image, passing it image and rect object assoc w/ image
