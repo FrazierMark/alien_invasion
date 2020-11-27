@@ -73,6 +73,8 @@ class AlienInvasion:
 
 	def _start_game(self):
 		"""Starts game..."""
+		# Reset the game settings.
+		self.settings.initialize_dynamic_settings()
 		# Reset the game statistics.
 		self.stats.reset_stats()
 		self.stats.game_active = True
@@ -146,6 +148,7 @@ class AlienInvasion:
 			# Destroy existing hullets and create new fleet.
 			self.bullets.empty()								# if alien group empty, we remove existing bullets by using empty() method
 			self._create_fleet()								# We then call _create_fleet(), which fills the screen with aliens again
+			self.settings.increase_speed()						# And increase the pace of the game
 
 	def _update_aliens(self):
 		"""Chk if the fleet is at an edge,
