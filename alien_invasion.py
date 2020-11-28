@@ -152,7 +152,8 @@ class AlienInvasion:
 		if collisions:											# Pygame returns a collisions dictionary if True
 			for aliens in collisions.values():					# now we loop through the collisions dictionary
 				self.stats.score += self.settings.alien_points * len(aliens)		# We increase stats.score by alien_point value, and multiply it by the amount of aliens if more than one 
-			self.sb.prep_score()								# we call prep_score()to screat a new image for updated score
+			self.sb.prep_score()								# we call prep_score()to create a new image for updated score
+			self.sb.check_high_score()							# after updating score, we call check_high_score to update high score if needed.
 
 		if not self.aliens:										# we check if alien group is empty
 			# Destroy existing hullets and create new fleet.
