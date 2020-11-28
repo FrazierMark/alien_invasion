@@ -5,6 +5,7 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet
@@ -25,6 +26,9 @@ class AlienInvasion:
 
 		# Create an instance to store game statistics.
 		self.stats = GameStats(self)
+
+		# and create a scoreboard
+		self.sb = Scoreboard(self)
 
 		self.ship = Ship(self)										# the self arg refers to the current instance of AlienInvasion
 																	# Parameter gives Ship access to the game's resources, such as screen object
@@ -221,6 +225,9 @@ class AlienInvasion:
 			bullet.draw_bullet()								# to draw all fired bullets, we loop though the sprites in bullets and call draw_bullet on each
 		# draws each element in group at the position defined by its rect attribute
 		self.aliens.draw(self.screen)							# the draw() method requires one arg: a surface on which to draw
+
+		# Draw the score information.
+		self.sb.show_score()
 
 		# Draw the play button if the game is inactive.
 		if not self.stats.game_active:
