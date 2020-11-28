@@ -20,7 +20,8 @@ class Scoreboard:
 
 	def prep_score(self):
 		"""Turn the score into a rendered image."""
-		score_str = str(self.stats.score)						# We convert stats.score into string...
+		rounded_score = round(self.stats.score, -1)				# Round the stats.score to the nearest 10 and store inm rounded_score
+		score_str = "{:,}".format(rounded_score)				# A string formatting directive inserts commas into numbers when converting a numerical value to a string
 		self.score_image = self.font.render(score_str, True,	# ...then we pass this string to render() which creates the image (including bg color and text color)
 				self.text_color, self.bg_color)					# (the TRUE value is a boolean for antialiasing)
 
