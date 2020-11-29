@@ -83,6 +83,7 @@ class AlienInvasion:
 		self.stats.reset_stats()
 		self.stats.game_active = True
 		self.sb.prep_score()							# We call prep_score() after resetting game stats when starting new game. This sets scoreboard to 0.
+		self.sb.prep_level()
 
 		# Get rid of any remaining aliens and bullets.
 		self.aliens.empty()
@@ -160,6 +161,10 @@ class AlienInvasion:
 			self.bullets.empty()								# if alien group empty, we remove existing bullets by using empty() method
 			self._create_fleet()								# We then call _create_fleet(), which fills the screen with aliens again
 			self.settings.increase_speed()						# And increase the pace of the game
+
+			# Increase level.
+			self.stats.level += 1
+			self.sb.prep_level()
 
 	def _update_aliens(self):
 		"""Chk if the fleet is at an edge,
