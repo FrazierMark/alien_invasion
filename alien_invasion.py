@@ -84,6 +84,7 @@ class AlienInvasion:
 		self.stats.game_active = True
 		self.sb.prep_score()							# We call prep_score() after resetting game stats when starting new game. This sets scoreboard to 0.
 		self.sb.prep_level()
+		self.sb.prep_ships()
 
 		# Get rid of any remaining aliens and bullets.
 		self.aliens.empty()
@@ -215,6 +216,8 @@ class AlienInvasion:
 			# Create an alien and place it in the row.
 				self._create_alien(alien_number, row_number)
 
+		self.ship.center_ship()
+
 	def _create_alien(self, alien_number, row_number):
 		"""Create an alien and place it in the row."""
 		alien = Alien(self)										# create alien
@@ -250,8 +253,9 @@ class AlienInvasion:
 	def _ship_hit(self):
 		"""Respond to the ship being hit by an alien"""
 		if self.stats.ships_left > 0:
-			# Decrement ships_left
-			self.stats.ships_left -= 1 
+			# Decrement ships_left and update scoreboard.
+			self.stats.ships_left -= 1
+			self.sb.prep_ships()
 
 			# Get rid of any remaining aliens and bullets.
 			self.aliens.empty()

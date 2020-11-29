@@ -1,10 +1,14 @@
 import pygame.font
+from pygame.sprite import Group
+
+from ship import Ship
 
 class Scoreboard:
 	"""A class to report scoring information."""
 
 	def __init__(self, ai_game):
 		"""Initialize scorekeeping attributes."""
+		self.ai_game = ai_game
 		self.screen = ai_game.screen
 		self.screen_rect = self.screen.get_rect()
 		self.settings = ai_game.settings
@@ -19,6 +23,7 @@ class Scoreboard:
 		self.prep_score()
 		self.prep_high_score()
 		self.prep_level()
+		self.prep_ships()
 
 	def prep_score(self):
 		"""Turn the score into a rendered image."""
@@ -48,10 +53,11 @@ class Scoreboard:
 
 
 	def show_score(self):
-		"""Draw score to the screen."""
+		"""Draw scores, level, and ships to the screen."""
 		self.screen.blit(self.score_image, self.score_rect)				# Method draws the score image onscreen at the location score_rect specifies.
 		self.screen.blit(self.high_score_image, self.high_score_rect)	# Same^^ but for highscore
 		self.screen.blit(self.level_image, self.level_rect)				# Same, but for Level
+		self.ships.draw(self.screen)									# we call draw() on the groups and Pygame draws each ship
 
 	def check_high_score(self):
 		"""Check to see if there's a new high score."""
@@ -68,5 +74,16 @@ class Scoreboard:
 
 		# Position the level below the score.
 		self.level_rect = self.level_image.get_rect()			# Creating rect location to position Level to u of the screen 
-		self.level_rect.left = self.screen_rect.left + 20
-		self.level_rect.top = 20
+		self.level_rect.right = self.score_rect.right
+		self.level_rect.top = self.score_rect.bottom + 10
+
+
+	def prep_ships(self):
+		"""Show how many ships are left."""
+		self.ships = Group()								# create an empty group, self.ships to hold the ship instances
+		for ship_number in range(self.stats.ships_left):	# to fill group, loop runs once for every ship the player has left
+			ship = Ship(self.ai_game)
+			ship.rect.x = 10 + ship_number * ship.rect.width
+			ship.rect.y = 10
+			self.ships.add(ship)							# We add each new ship to the group ships
+
