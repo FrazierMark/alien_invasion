@@ -2,6 +2,7 @@ import sys
 from time import sleep
 
 import pygame
+from pygame import mixer
 
 from settings import Settings
 from game_stats import GameStats
@@ -10,6 +11,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from sound import Sound
 
 class AlienInvasion:
 	"""Overall class to manage game assets and behavior."""
@@ -37,6 +39,8 @@ class AlienInvasion:
 		self.aliens = pygame.sprite.Group()
 
 		self._create_fleet()
+
+		self.sound = Sound(self)
 
 		# Make the Play button
 		self.play_button = Button(self, "Play")					# Creates an instance of Button w/ label PLAY, but will call draw_button in _update_screen.
@@ -96,6 +100,14 @@ class AlienInvasion:
 
 		# Hide the mouse cursor
 		pygame.mouse.set_visible(False)						# When game is active we make the cursor invisible
+
+		# Start music when game starts
+		self._update_sound()
+
+	def _update_sound(self):
+		"""Update sound effects"""
+		self.sound.play_bg_music()
+
 
 
 	def _check_keydown_events(self, event):

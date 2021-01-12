@@ -1,7 +1,7 @@
 import pygame
 
 class Settings:
-	"""A class to store all settigs for Alien Invasion."""
+	"""A class to store all settings for Alien Invasion."""
 
 	def __init__(self):
 		"""Initialize the game's static settings."""
@@ -29,6 +29,7 @@ class Settings:
 		self.score_scale = 1.5
 
 		self.initialize_dynamic_settings()
+
 
 	def initialize_dynamic_settings(self):
 		"""Initialize settings that change throughout the game."""
