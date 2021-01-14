@@ -28,6 +28,9 @@ class Settings:
 		# How quickly the alien point values increase after each level
 		self.score_scale = 1.5
 
+		self.clock = pygame.time.Clock()
+		
+
 		self.initialize_dynamic_settings()
 
 

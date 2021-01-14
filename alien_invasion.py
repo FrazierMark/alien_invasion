@@ -11,7 +11,7 @@ from button import Button
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
-from sound import Sound
+from sounds import Sounds
 
 class AlienInvasion:
 	"""Overall class to manage game assets and behavior."""
@@ -40,7 +40,8 @@ class AlienInvasion:
 
 		self._create_fleet()
 
-		self.sound = Sound(self)
+		self.sounds = Sounds(self)
+		self.bullet = Bullet(self)
 
 		# Make the Play button
 		self.play_button = Button(self, "Play")					# Creates an instance of Button w/ label PLAY, but will call draw_button in _update_screen.
@@ -102,16 +103,16 @@ class AlienInvasion:
 		pygame.mouse.set_visible(False)						# When game is active we make the cursor invisible
 
 		# Start music when game starts
-		self._update_sound()
+		self._update_sounds()
 
-	def _update_sound(self):
+	def _update_sounds(self):
 		"""Update sound effects"""
-		self.sound.play_bg_music()
-
+		self.sounds.play_bg_music()
 
 
 	def _check_keydown_events(self, event):
 		"""Respond to keypresses"""
+		keystate = pygame.key.get_pressed()
 		if event.key == pygame.K_RIGHT:								# if R arrow pressed we set moving right to True
 			self.ship.moving_right = True
 		elif event.key == pygame.K_LEFT:							# if L arrow pressed we set moving left to True
@@ -120,7 +121,7 @@ class AlienInvasion:
 			self.ship.moving_up = True
 		elif event.key == pygame.K_DOWN:							# if DOWN arrow pressed we set moving down to True
 			self.ship.moving_down = True
-		elif event.key == pygame.K_SPACE:							# if spacebar is pressed we call _fire_bullet()
+		elif keystate[pygame.K_SPACE]:							# if spacebar is pressed we call _fire_bullet()
 			self._fire_bullet()
 		elif event.key == pygame.K_p:
 			self._start_game()
@@ -141,9 +142,12 @@ class AlienInvasion:
 
 	def _fire_bullet(self):
 		"""Create a new bullet and add it to the bullets group"""
-		if len(self.bullets) < self.settings.bullets_allowed:			# we check the length of bullets currently on screen, if limit not reached we...	
-			new_bullet = Bullet(self)									# ...make an instancve of Bullet and call it new_bullet
+		now = pygame.time.get_ticks()
+		if now - self.bullet.last_shot > self.bullet.shoot_delay:
+			self.bullet.last_shot = now
+			new_bullet = Bullet(self)									# ...make an instance of Bullet and call it new_bullet
 			self.bullets.add(new_bullet)								# we then add it to the group BULLETS using the add() method (similar to append() for Pygame)
+			self.sounds.play_bullet_sound()
 
 	def _update_bullets(self):
 		"""Update position of bullets and get rid of old bullets."""
@@ -168,9 +172,10 @@ class AlienInvasion:
 				self.stats.score += self.settings.alien_points * len(aliens)		# We increase stats.score by alien_point value, and multiply it by the amount of aliens if more than one 
 			self.sb.prep_score()								# we call prep_score()to create a new image for updated score
 			self.sb.check_high_score()							# after updating score, we call check_high_score to update high score if needed.
+			self.sounds.play_collision_sound()
 
 		if not self.aliens:										# we check if alien group is empty
-			# Destroy existing hullets and create new fleet.
+			# Destroy existing bullets and create new fleet.
 			self.bullets.empty()								# if alien group empty, we remove existing bullets by using empty() method
 			self._create_fleet()								# We then call _create_fleet(), which fills the screen with aliens again
 			self.settings.increase_speed()						# And increase the pace of the game

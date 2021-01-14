@@ -19,6 +19,9 @@ class Bullet(Sprite):
 		# Store the bullet's position as a decimal value.
 		self.y = float(self.rect.y)
 
+		self.shoot_delay = 250
+		self.last_shot = pygame.time.get_ticks()
+
 	def update(self):
 		"""Move the bullet up the screen."""							# Manages the bullet's position. When bullet fired, it moves up the screen, which corresponds
 		# Update the decimal position of the bullet.					# to a decreasing y-coordinate value. To update the position, we subtract the amount stored in
