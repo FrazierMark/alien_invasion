@@ -61,6 +61,10 @@ class AlienInvasion:
 
 	def _check_events(self):										# "Helper Method" Does work inside a class but isn't meant to be called through an instance	
 		"""Respond to keypresses and mouse events"""				# def run_game calls this method (easier to keep code clean and clear)
+		keystate = pygame.key.get_pressed()
+		if keystate[pygame.K_SPACE]:							# if spacebar is pressed (and helf down) we call _fire_bullet()
+				self._fire_bullet()
+
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				sys.exit()
@@ -112,7 +116,7 @@ class AlienInvasion:
 
 	def _check_keydown_events(self, event):
 		"""Respond to keypresses"""
-		keystate = pygame.key.get_pressed()
+
 		if event.key == pygame.K_RIGHT:								# if R arrow pressed we set moving right to True
 			self.ship.moving_right = True
 		elif event.key == pygame.K_LEFT:							# if L arrow pressed we set moving left to True
@@ -121,8 +125,6 @@ class AlienInvasion:
 			self.ship.moving_up = True
 		elif event.key == pygame.K_DOWN:							# if DOWN arrow pressed we set moving down to True
 			self.ship.moving_down = True
-		elif keystate[pygame.K_SPACE]:							# if spacebar is pressed we call _fire_bullet()
-			self._fire_bullet()
 		elif event.key == pygame.K_p:
 			self._start_game()
 
